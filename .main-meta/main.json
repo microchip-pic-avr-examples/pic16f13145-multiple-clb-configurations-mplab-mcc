@@ -4,8 +4,8 @@
     "content": {
         "metaDataVersion": "1.3.0",
         "name": "com.microchip.mcu8.mplabx.project.pic16f13145-multiple-clb-configurations-mplab-mcc",
-        "version": " ",
-        "displayName": "",
+        "version": "1.0.0",
+        "displayName": "Getting Started with Multiple Configurations for the Configurable Logic Block (CLB) - Use Case for the PIC16F13145 Microcontroller with MCC Melody",
         "projectName": "pic16f13145-multiple-clb-configurations-mplab-mcc",
         "shortDescription": "This repository provides an MPLAB X project highlighting how different bitstream configurations for the Configurable Logic Block (CLB) peripheral can be changed and loaded at runtime.",
         "ide": {
@@ -19,12 +19,12 @@
             }
         ],
         "dfp": {
-            "name": "",
-            "semverRange": ""
+            "name": "PIC16F1xxxx_DFP",
+            "semverRange": "^1.23.382"
         },
         "configurator": {
-            "name": "",
-            "semverRange": ""
+            "name": "MCC",
+            "semverRange": ">=5.4.1"
         },
         "device": {
             "metaDataVersion": "1.0.0",
@@ -37,8 +37,15 @@
             }
         },
         "author": "Cristian Cristea",
-        "peripherals": [],
-        "keywords": [],
+        "peripherals": [
+            "CLB",
+            "NVMCTRL",
+            "CRC"
+        ],
+        "keywords": [
+            "CLB",
+            "Melody"
+        ],
         "additionalData": {
             "longDescription": {
                 "metaDataVersion": "1.0.0",
