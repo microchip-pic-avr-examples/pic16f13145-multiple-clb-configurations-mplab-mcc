@@ -8,7 +8,7 @@
 
 # Getting Started with Multiple Configurations for the Configurable Logic Block (CLB) - Use Case for the PIC16F13145 Microcontroller with MCC Melody
 
-The PIC16F13145 device family of microcontrollers is equipped with a complex programmable logic device peripheral. The Configurable Logic Block (CLB) is a collection of logic elements that can be programmed to perform a wide variety of digital logic functions. The logic function may be completely combinatorial, sequential, or a combination of the two, enabling users to incorporate hardware-based custom logic into their applications. This peripheral presents an unique way of modifying its control registers and setting up the logic elements. The CLB module consists of two sets of register interfaces: the standard Special Function Register (SFR) interface, and a Configuration Interface. These SFRs allow user software the ability to enable/disable the module, program input bits into the CLB memory, select a clock source, read the outputs of each Basic Logic Element (BLE), and enable Peripheral Pin Select (PPS) outputs for specific BLE outputs. The CLB’s logic elements cannot be configured using the SFR interface and consequently the Configuration Interface must be used for a complete configuration of the module. The Configuration Interface does not appear as an SFR in the Register Map and is not directly user-accessible. Instead, the Configuration Interface is accessed through the Nonvolatile Memory Control (NVM) Scanner module. Therefore, the configuration values for the logic elements, also called the bitstream, must reside in Program Flash Memory (PFM) and the NVM Scanner transfers the information from the PFM into the CLB registers. Storing the bitstream in the Program Flash Memory offers extensive flexibility for a wide range of applications due to the fact that one can store multiple bitstreams in memory which can be loaded into the CLB registers at runtime. This code example will explore this concept and will present a use case which changes the bitstream of two simple digital designs during runtime with the press of a button.
+The PIC16F13145 device family of microcontrollers is equipped with a complex programmable logic device peripheral. The Configurable Logic Block (CLB) is a collection of logic elements that can be programmed to perform a wide variety of digital logic functions. The logic function may be completely combinatorial, sequential or a combination of the two, enabling users to incorporate hardware-based custom logic into their applications. This peripheral presents a unique way of modifying its control registers and setting up the logic elements. The CLB module consists of two sets of register interfaces: the standard Special Function Register (SFR) interface and a Configuration Interface. These SFRs allow user software the ability to enable/disable the module, program input bits into the CLB memory, select a clock source, read the outputs of each Basic Logic Element (BLE) and enable Peripheral Pin Select (PPS) outputs for specific BLE outputs. The CLB’s logic elements cannot be configured using the SFR interface and consequently the Configuration Interface must be used for a complete configuration of the module. The Configuration Interface does not appear as an SFR in the Register Map and is not directly user-accessible. Instead, the Configuration Interface is accessed through the Nonvolatile Memory Control (NVM) Scanner module. Therefore, the configuration values for the logic elements, also called the bitstream, must reside in Program Flash Memory (PFM) and the NVM Scanner transfers the information from the PFM into the CLB registers. Storing the bitstream in the Program Flash Memory offers extensive flexibility for a wide range of applications due to the fact that the user can store multiple bitstreams in memory which can be loaded into the CLB registers at run-time. This code example will explore this concept and will present a use case which changes the bitstream of two simple digital designs during run-time with the press of a button.
 
 ## Related Documentation
 
@@ -22,7 +22,7 @@ The PIC16F13145 device family of microcontrollers is equipped with a complex pro
 
 - [MPLAB® X IDE v6.15 or newer](http://www.microchip.com/mplab/mplab-x-ide)
 - [MPLAB XC8 2.45 or newer](http://www.microchip.com/mplab/compilers)
-- [MPLAB Code Configurator Melody](https://www.microchip.com/en-us/tools-resources/configure/mplab-code-configurator/melody)
+- [MPLAB Code Configurator (MCC) Melody](https://www.microchip.com/en-us/tools-resources/configure/mplab-code-configurator/melody)
 - [PIC16F1xxxx_DFP Device Family Pack v1.23.382 or newer](https://packs.download.microchip.com/)
 
 ## Hardware Used
@@ -39,7 +39,7 @@ To program the Curiosity Nano board with this MPLAB X project, follow the steps 
 
 ## Concept
 
-This application showcases the capabilities of using multiple configurations for the CLB module by creating two different versions of a simple clock divider circuit, as illustrated in the diagram below and accessible in the design [file](assets/design.clb). To keep things simple, the two circuits are identical, with the exception of the clock divider value. The first configuration divides the clock by 2 × 16 = 32, while the second configuration divides the clock by 2 × 128 = 256 and therefore the two digital circuits generate a 1 kHz and 125 Hz, respectively, 50% duty cycle Pulse-Width Modulation (PWM) signal. The two configurations are stored in the Program Flash Memory and are loaded into the CLB registers at runtime. The change between the two configurations is initiated by the press of the onboard button of the Curiosity Nano.
+This application showcases the capabilities of using multiple configurations for the CLB module by creating two different versions of a simple clock divider circuit, as illustrated in the diagram below and accessible in the design [file](assets/design.clb). To keep things simple, the two circuits are identical, with the exception of the clock divider value. The first configuration divides the clock by 2 × 16 = 32, while the second configuration divides the clock by 2 × 128 = 256, and therefore the two digital circuits generate a 1 kHz and 125 Hz 50% duty cycle Pulse-Width Modulation (PWM) signal, respectively. The two configurations are stored in the Program Flash Memory and are loaded into the CLB registers at run-time. The change between the two configurations is initiated by the press of the on-board button of the Curiosity Nano.
 
 <picture>
     <img alt="Shows a CLB designer diagram of a clock divider" src="images/mcc/circuit.png" width="400">
@@ -47,25 +47,25 @@ This application showcases the capabilities of using multiple configurations for
 
 ### Generating Configurations
 
-The first step which must be taken is to create a project using the MPLAB Code Configurator Melody plugin in the MPLAB X IDE. In MCC, the CLB Module provides a Graphical User Interface (GUI) called the CLB Synthesizer which easies the design of digital logic circuits and the configuration of the logic elements, being an essential tool by allowing users to focus on the intended functionality of their logic design without having to fully understand the inner workings of the peripheral itself. The GUI offers the possibility to the user to create both schematic-centered digital designs and defining modules in the Verilog Hardware Description Language (HDL).
+The first step is to create a project using the MCC Melody plug-in in MPLAB X IDE. In MCC, the CLB Module provides a Graphical User Interface (GUI) called the CLB Synthesizer which easies the design of digital logic circuits and the configuration of the logic elements, being an essential tool by allowing users to focus on the intended functionality of their logic design without having to fully understand the inner workings of the peripheral itself. The GUI offers the possibility to the user to create both schematic-centered digital designs and defining modules in the Verilog Hardware Description Language (HDL).
 
 After the project has been created and the source code files have been generated by the MCC, the file of interest is the assembly one that contains the bitstream and some other configurations, called [`clbBitstream.s`](pic16f13145-multiple-clb-configurations-mplab-mcc.X/mcc_generated_files/clb/src/clbBitstream.s). At the top, the assembly file defines two labels, `_start_clb_config` and `_end_clb_config`, that demarcate the start and end, respectively, of the sequence of data words that make up the bitstream. They are also marked as `GLOBAL` so they can be referenced in the C source code. Additionally, a Program Section is defined using the `PSECT` directive and has its flags properly set so that the bitstream values are correctly laid out in the Program Flash Memory by the linker.
 
 ### Creating Multiple Bitstreams
 
-The main point of this example is showing the changes that must be made to the bitstream assembly file so that multiple ones can be generated using the MPLAB Code Configurator. Firstly, the file has to be renamed from `clbBitstream.s` to some other name such that the MCC wouldn’t overwrite its contents. For the source code used in this application, the simple scheme of adding "alt" (i.e., alternate) as a suffix to the filename was sufficient, due to the fact that the example will explore switching between two configurations. Hence, the filename in the example becomes [`clbBitstreamAlt.s`](pic16f13145-multiple-clb-configurations-mplab-mcc.X/mcc_generated_files/clb/src/clbBitstreamAlt.s). If one has project that necessitates more than two configurations, the most convenient and efficient approach would be to suffix the filename with sequentially increasing values starting from 0 or 1.
+The main point of this example is showing the changes that must be made to the bitstream assembly file so that multiple ones can be generated using MCC. Firstly, the file has to be renamed from `clbBitstream.s` to some other name such that the MCC wouldn’t overwrite its contents. For the source code used in this application, the simple scheme of adding "alt" (i.e., alternate) as a suffix to the filename was sufficient, due to the fact that the example will explore switching between two configurations. Hence, the filename in the example becomes [`clbBitstreamAlt.s`](pic16f13145-multiple-clb-configurations-mplab-mcc.X/mcc_generated_files/clb/src/clbBitstreamAlt.s). For a project in need of more than two configurations, the most convenient and efficient approach would be to suffix the filename with sequentially increasing values starting from 0 or 1.
 
-After the file has been renamed, the labels that delimit the sequence of data words and the name of the Program Section have to be changed so that they are unique for every bitstream assembly file. Finally, one can implement a new digital design, synthesize it and generate a new bitstream file through the MPLAB Code Configurator and reiterate the described process however many times it is needed to create the required number of bitstream files.
+After the file has been renamed, the labels that delimit the sequence of data words and the name of the Program Section have to be changed so that they are unique for every bitstream assembly file. Finally, the user can implement a new digital design, synthesize it and generate a new bitstream file through the MCC. The process can be reiterated however many times it is needed to create the required number of bitstream files.
 
 ### Additional MCC Configurations
 
-The CLB Module in the MPLAB Code Configurator also features some supplementary configurations that one can use to control the generation and loading of the bitstream file. By default, the MCC generates source code that loads the synthesized bitstream into the CLB registers and enables the module at startup during the system initialization step. This is counter-intuitive in the context of multiple configurations because one may want to load a specific configuration at startup instead of the last generated one (if its default labels weren’t changed) and enable the CLB manually. This behavior may be turned off by disabling the *Load CLB Bitstream After Reset* and *Enable CLB* options in the CLB Module.
+The CLB Module in the MCC also features some supplementary configurations to control the generation and loading of the bitstream file. By default, the MCC generates source code that loads the synthesized bitstream into the CLB registers and enables the module at start-up during the system initialization step. This is counter-intuitive in the context of multiple configurations because the user may want to load a specific configuration at start-up instead of the last generated one (if its default labels weren’t changed) and enable the CLB manually. This behavior may be turned off by disabling the *Load CLB Bitstream After Reset* and *Enable CLB* options in the CLB Module.
 
-The other important and useful configuration is the possibility of setting the starting address in Program Flash Memory where the bitstream would reside. This behavior can be turned on by enabling the *Configurable Bitstream Address* option in the CLB Module and inputing the desired value in the now available field, as long as its within the displayed constraints. Additional directives and Program Section flags are generated in order to have the bitstream values laid out in memory at the specified address. The generated preprocessor macro (`CLB_CONFIG_ADDRESS`) may also be renamed along with the other labels to maintain consistency by using the same naming scheme, but this is not mandatory since the define is local to every assembly file. Thus, the configuration for a fixed address can be enabled or disabled at will for each configuration that needs or not, respectively, a predefined memory address.
+The other important and useful configuration is the possibility of setting the starting address in Program Flash Memory where the bitstream would reside. This behavior can be turned on by enabling the *Configurable Bitstream Address* option in the CLB Module and inputing the desired value in the now available field, as long as its within the displayed constraints. Additional directives and Program Section flags are generated in order to have the bitstream values laid out in memory at the specified address. The generated preprocessor macro (`CLB_CONFIG_ADDRESS`) may also be renamed along with the other labels to maintain consistency by using the same naming scheme, but this is not mandatory since the define is local to every assembly file. Thus, the configuration for a fixed address can be enabled or disabled at will for each configuration, in case a predefined memory address is needed or not.
 
 ### Software Limitations
 
-The CLB peripheral uses the Peripheral Pin Select (PPS) module to control external output pins. As a consequence, this aspect imposes further considerations during the development process due to the fact that the RxyPPS registers associated to used output pins in the design might need to be reconfigured for every loaded bitstream configuration. This sterns from that fact that the MCC is going to initialize the RxyPPS with values only for the latest generated digital circuit configuration. For example, if one configuration uses one pin for the CLBPPSOUTx output and another configuration uses same pin for the CLBPPSOUTy output, the RxyPPS corresponding to the used pin must be updated on each configuration change. For further reference on how to properly configure the RxyPPS registers, one can check out the [PIC16F13145 Data Sheet](https://ww1.microchip.com/downloads/aemDocuments/documents/MCU08/ProductDocuments/DataSheets/PIC16F13145-Family-Microcontroller-Data-Sheet-DS40002519.pdf).
+The CLB peripheral uses the Peripheral Pin Select (PPS) module to control external output pins. Consequently this aspect imposes further considerations during the development process due to the fact that the RxyPPS registers associated to used output pins in the design might need to be reconfigured for every loaded bitstream configuration. This stems from the fact that the MCC is going to initialize the RxyPPS with values only for the latest generated digital circuit configuration. For example, if one configuration uses one pin for the CLBPPSOUTx output and another configuration uses same pin for the CLBPPSOUTy output, the RxyPPS corresponding to the used pin must be updated on each configuration change. For further information on how to properly configure the RxyPPS registers, refer to the [PIC16F13145 Data Sheet](https://ww1.microchip.com/downloads/aemDocuments/documents/MCU08/ProductDocuments/DataSheets/PIC16F13145-Family-Microcontroller-Data-Sheet-DS40002519.pdf).
 
 ## Setup
 
@@ -96,7 +96,7 @@ The CLB peripheral uses the Peripheral Pin Select (PPS) module to control extern
 - **CLB1**
   - Disabled
   - Clock Selection: MFINTOSC (32 kHz)
-  - Clock Divider: 16 (Primary Configuration) / 128 (Alternate Configuration)
+  - Clock Divider: 16 (Primary Configuration)/128 (Alternate Configuration)
   - Configurable Bitstream Address: Disabled
   - Load CLB Bitstream after Reset: Disabled
 
@@ -138,35 +138,35 @@ This application demonstrates the possibility of using multiple configurations o
 
 ## How to Program the Curiosity Nano board
 
-This chapter shows how to use the MPLAB X IDE to program a PIC® device with an *ExampleProject.X*. This can be applied for any other projects.
+This chapter shows how to use the MPLAB X IDE to program a PIC® device with an `ExampleProject.X`. This can be applied for any other projects.
 
-1. Connect the board to the Computer.
+1. Connect the board to the computer.
 
-2. Open the *ExampleProject.X* project in MPLAB X IDE.
+2. Open the `ExampleProject.X` project in MPLAB X IDE.
 
-3. Set the **ExampleProject** project as main project.
+3. Set the ExampleProject project as main project.
 
-    Right click on the project in the **Projects** tab and click **Set as Main Project**.
+    Right click the project in the **Projects** tab and click Set as Main Project.
 
     ![Set as Main Project](images/main-project.png)
 
-4. Clean and build the **ExampleProject** project.
+4. Clean and build the ExampleProject project.
 
-    Right click on the **ExampleProject** project and select **Clean and Build**.
+    Right click on the ExampleProject project and select Clean and Build.
 
     ![Clean and Build](images/clean-and-build.png)
 
-5. Select the **PIC Curiosity Nano** in the Connected Hardware Tool section of the project settings:
+5. Select the PIC Curiosity Nano in the Connected Hardware Tool section of the project settings:
 
-    - Right click on the project and click **Properties**
+    - Right click on the project and click Properties
     - Click on the arrow under the Connected Hardware Tool
-    - Select the **PIC Curiosity Nano**, click **Apply** and then click **OK**:
+    - Select the PIC Curiosity Nano, click **Apply** and then click **OK**:
 
     ![Select the PIC Curiosity Nano](images/device.png)
 
 6. Program the project to the board.
 
-    Right click on the project and click **Make and Program Device**.
+    Right click the project and click Make and Program Device.
 
     ![Make and Program Device](images/make-and-program.png)
 
