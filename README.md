@@ -6,7 +6,7 @@
     </picture>
 </a>
 
-# Getting Started With Multiple Configurations for the Configurable Logic Block (CLB) – Use Case for the PIC16F13145 Microcontroller With MCC Melody
+# Getting Started With Multiple Configurations for the Configurable Logic Block (CLB) – Use Case for the PIC16F13145 Microcontroller with MCC Melody
 
 The PIC16F13145 device family of microcontrollers is equipped with a Configurable Logic Block (CLB) peripheral. The CLB is a collection of logic elements that can be programmed to perform a wide variety of digital logic functions. The logic function may be completely combinatorial, sequential or a combination of the two, enabling users to incorporate hardware-based custom logic into their applications. This peripheral presents a unique way of modifying its control registers and setting up the logic elements. The CLB module consists of two sets of register interfaces: the standard Special Function Register (SFR) interface and a Configuration Interface. These SFRs allow user software the ability to enable/disable the module, program input bits into the CLB memory, select a clock source, read the outputs of each Basic Logic Element (BLE) and enable Peripheral Pin Select (PPS) outputs for specific BLE outputs.
 
@@ -20,15 +20,14 @@ This code example shows how to change the bitstream at run-time and will reconfi
 - [PIC16F13145 Product Page](https://www.microchip.com/en-us/product/PIC16F13145?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_PIC16F13145&utm_content=pic16f13145-multiple-clb-configurations-mplab-mcc-github&utm_bu=MCU08)
 - [PIC16F13145 Data Sheet](https://ww1.microchip.com/downloads/aemDocuments/documents/MCU08/ProductDocuments/DataSheets/PIC16F13145-Family-Microcontroller-Data-Sheet-DS40002519.pdf)
 - [PIC16F13145 Curiosity Nano](https://www.microchip.com/en-us/development-tool/EV06M52A?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_PIC16F13145&utm_content=pic16f13145-multiple-clb-configurations-mplab-mcc-github&utm_bu=MCU08)
-- [PIC16F13145 Content on MPLAB® Discover](https://mplab-discover.microchip.com/v2?dsl=PIC16F13145)
+- [PIC16F13145 Code Examples on Discover](https://mplab-discover.microchip.com/v2?dsl=PIC16F13145)
 - [PIC16F13145 Code Examples on GitHub](https://github.com/orgs/microchip-pic-avr-examples/repositories?q=pic16f13145&type=all)
 
 ## Software Used
 
-- [MPLAB X IDE v6.15 or newer](https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_PIC16F13145&utm_content=pic16f13145-multiple-clb-configurations-mplab-mcc-github&utm_bu=MCU08)
-- [MPLAB XC8 v2.46 or newer](https://www.microchip.com/en-us/tools-resources/develop/mplab-xc-compilers?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_PIC16F13145&utm_content=pic16f13145-multiple-clb-configurations-mplab-mcc-github&utm_bu=MCU08)
-- [MPLAB Code Configurator (MCC) Melody](https://www.microchip.com/en-us/tools-resources/configure/mplab-code-configurator?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_PIC16F13145&utm_content=pic16f13145-multiple-clb-configurations-mplab-mcc-github&utm_bu=MCU08)
-- [PIC16F1xxxx_DFP Device Family Pack v1.24.387 or newer](https://packs.download.microchip.com/)
+- [MPLAB® X IDE v6.20 or newer](https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_PIC16F13145&utm_content=pic16f13145-multiple-clb-configurations-mplab-mcc-github&utm_bu=MCU08)
+- [MPLAB XC8 v2.50 or newer](https://www.microchip.com/en-us/tools-resources/develop/mplab-xc-compilers?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_PIC16F13145&utm_content=pic16f13145-multiple-clb-configurations-mplab-mcc-github&utm_bu=MCU08)
+- [PIC16F1xxxx_DFP Device Family Pack v1.25.389 or newer](https://packs.download.microchip.com/)
 
 ## Hardware Used
 
@@ -63,18 +62,18 @@ The main point of this example is showing the changes that must be made to the b
 After the file has been renamed, the labels that delimit the sequence of data words and the name of the Program Section have to be changed so that they are unique for every bitstream assembly file, as demonstrated in the diagram below. Finally, the user can implement a new digital design, synthesize it and generate a new bitstream file through the MCC. The process can be reiterated however many times it is needed to create the required number of bitstream files.
 
 <picture>
-    <img alt="Shows an MPLAB® Code Configurator (MCC) Configuration for the System Clock" src="images/diff.svg" width="600">
+    <img alt="Shows an MPLAB Code Configurator (MCC) Configuration for the System Clock" src="images/diff.svg" width="600">
 </picture>
 
 ### Additional MCC Configurations
 
-The CLB Module in the MCC also features some supplementary configurations to control the generation and loading of the bitstream file. By default, the MCC generates source code that loads the synthesized bitstream into the CLB registers and enables the module at start-up during the system initialization step. This is counter-intuitive in the context of multiple configurations because the user may want to load a specific configuration at start-up instead of the last generated one (if its default labels weren’t changed) and enable the CLB manually. This behavior may be turned off by disabling the *Load CLB Bitstream After Reset* and *Enable CLB* options in the CLB Module.
+The CLB Module in the MCC also features some supplementary configurations to control the generation and loading of the bitstream file. By default, the MCC generates source code that loads the synthesized bitstream into the CLB registers and enables the module at start-up during the system initialization step. This is counter-intuitive in the context of multiple configurations because the user may want to load a specific configuration at start-up instead of the last generated one (if its default labels weren’t changed) and enable the CLB manually. This behavior may be turned off by disabling the _Load CLB Bitstream After Reset_ and _Enable CLB_ options in the CLB Module.
 
 <picture>
-    <img alt="Shows an MPLAB® Code Configurator (MCC) Configuration for the CLB1 module with two options highlighted" src="images/mcc/clb1-highlight.png" width="600">
+    <img alt="Shows an MPLAB Code Configurator (MCC) Configuration for the CLB1 module with two options highlighted" src="images/mcc/clb1-highlight.png" width="600">
 </picture>
 
-The other important and useful configuration is the possibility of setting the starting address in Program Flash Memory where the bitstream would reside. This behavior can be turned on by enabling the *Configurable Bitstream Address* option in the CLB Module and inputing the desired value in the now available field, as long as its within the displayed constraints. Additional directives and Program Section flags are generated in order to have the bitstream values laid out in memory at the specified address. The generated preprocessor macro (`CLB_CONFIG_ADDRESS`) may also be renamed along with the other labels to maintain consistency by using the same naming scheme, but this is not mandatory since the define is local to every assembly file. Thus, the configuration for a fixed address can be enabled or disabled at will for each configuration, in case a predefined memory address is needed or not.
+The other important and useful configuration is the possibility of setting the starting address in Program Flash Memory where the bitstream would reside. This behavior can be turned on by enabling the _Configurable Bitstream Address_ option in the CLB Module and inputing the desired value in the now available field, as long as its within the displayed constraints. Additional directives and Program Section flags are generated in order to have the bitstream values laid out in memory at the specified address. The generated preprocessor macro (`CLB_CONFIG_ADDRESS`) may also be renamed along with the other labels to maintain consistency by using the same naming scheme, but this is not mandatory since the define is local to every assembly file. Thus, the configuration for a fixed address can be enabled or disabled at will for each configuration, in case a predefined memory address is needed or not.
 
 ### Software Limitations
 
@@ -90,7 +89,7 @@ void ChangeConfiguration(uint16_t const startAddress)
     CLB1_Disable();
     CLB1_Configure(startAddress);
     CLB1_Enable();
-    
+
     return;
 }
 ```
@@ -113,7 +112,7 @@ void InitializeConfigurations(void)
 {
     configurations[0] = (uint16_t) &start_clb_config;
     configurations[1] = (uint16_t) &start_clb_config_alt;
-    
+
     return;
 }
 ```
@@ -122,11 +121,11 @@ void InitializeConfigurations(void)
 void SetCurrentConfiguration(void)
 {
     static uint8_t currentConfigIdx = 0;
-    
+
     ChangeConfiguration(configurations[currentConfigIdx]);
-    
+
     currentConfigIdx = (currentConfigIdx + 1) % NUMBER_OF_CONFIGS;
-    
+
     return;
 }
 ```
@@ -139,10 +138,10 @@ void SetCurrentConfiguration(void)
   - Clock Divider: 1
 
 <picture>
-    <img alt="Shows an MPLAB® Code Configurator (MCC) Configuration for the System Clock" src="images/mcc/clock.png" width="600">
+    <img alt="Shows an MPLAB Code Configurator (MCC) Configuration for the System Clock" src="images/mcc/clock.png" width="600">
 </picture>
 
-***
+---
 
 - **Configuration Bits**
   - External Oscillator Mode Selection: Oscillator not enabled
@@ -152,10 +151,10 @@ void SetCurrentConfiguration(void)
   - Default values for the rest of the bits
 
 <picture>
-    <img alt="Shows an MPLAB® Code Configurator (MCC) Configuration for the Configuration Bits" src="images/mcc/bits.png" width="600">
+    <img alt="Shows an MPLAB Code Configurator (MCC) Configuration for the Configuration Bits" src="images/mcc/bits.png" width="600">
 </picture>
 
-***
+---
 
 - **CLB1**
   - Disabled
@@ -165,21 +164,21 @@ void SetCurrentConfiguration(void)
   - Load CLB Bitstream after Reset: Disabled
 
 <picture>
-    <img alt="Shows an MPLAB® Code Configurator (MCC) Configuration for the CLB1 module" src="images/mcc/clb1.png" width="600">
+    <img alt="Shows an MPLAB Code Configurator (MCC) Configuration for the CLB1 module" src="images/mcc/clb1.png" width="600">
 </picture>
 
-***
+---
 
 - **GPIO**
   - RA5 (`OUTPUT`) - Digital Output (CLBPPSOUT0)
   - RC3 (`BUTTON`) - Digital Input with Pullup Enabled (GPIO)
 
 <picture>
-    <img alt="Shows an MPLAB® Code Configurator (MCC) Configuration for the GPIO module." src="images/mcc/gpio.png" width="600">
+    <img alt="Shows an MPLAB Code Configurator (MCC) Configuration for the GPIO module." src="images/mcc/gpio.png" width="600">
 </picture>
 
 <picture>
-    <img alt="Shows an MPLAB® Code Configurator (MCC) Configuration for the pin grid." src="images/mcc/grid.png" width="600">
+    <img alt="Shows an MPLAB Code Configurator (MCC) Configuration for the pin grid." src="images/mcc/grid.png" width="600">
 </picture>
 
 ## Demo
@@ -210,29 +209,29 @@ This chapter shows how to use the MPLAB X IDE to program a PIC® device with an 
 
 3. Set the ExampleProject project as main project.
 
-    Right click the project in the **Projects** tab and click Set as Main Project.
+   Right click the project in the **Projects** tab and click Set as Main Project.
 
-    ![Set as Main Project](images/main-project.png)
+   ![Set as Main Project](images/main-project.png)
 
 4. Clean and build the ExampleProject project.
 
-    Right click on the ExampleProject project and select Clean and Build.
+   Right click on the ExampleProject project and select Clean and Build.
 
-    ![Clean and Build](images/clean-and-build.png)
+   ![Clean and Build](images/clean-and-build.png)
 
 5. Select the PIC Curiosity Nano in the Connected Hardware Tool section of the project settings:
 
-    - Right click on the project and click Properties
-    - Click on the arrow under the Connected Hardware Tool
-    - Select the PIC Curiosity Nano, click **Apply** and then click **OK**:
+   - Right click on the project and click Properties
+   - Click on the arrow under the Connected Hardware Tool
+   - Select the PIC Curiosity Nano, click **Apply** and then click **OK**:
 
-    ![Select the PIC Curiosity Nano](images/device.png)
+   ![Select the PIC Curiosity Nano](images/device.png)
 
 6. Program the project to the board.
 
-    Right click the project and click Make and Program Device.
+   Right click the project and click Make and Program Device.
 
-    ![Make and Program Device](images/make-and-program.png)
+   ![Make and Program Device](images/make-and-program.png)
 
 ## Contents
 
